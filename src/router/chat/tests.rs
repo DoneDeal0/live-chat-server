@@ -19,7 +19,7 @@ mod tests {
         let state = Arc::new(WsState::new());
         let app = Router::new()
             .route("/get-room", get(get_room))
-            .route("/send-message", post(send_message)) // Add send_message route
+            .route("/send-message", post(send_message))
             .with_state(state);
 
         let mut config = TestServerConfig::default();
@@ -143,7 +143,7 @@ mod tests {
         let _ = read2.next().await.unwrap().unwrap(); // get_room_users
         let _ = read2.next().await.unwrap().unwrap(); // user2 join_room
 
-        // Send a message via POST
+        // Send a message (POST send-message)
         let message = Message {
             page_id: "room1".to_string(),
             user_id: "user1".to_string(),

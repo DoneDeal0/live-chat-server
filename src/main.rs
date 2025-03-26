@@ -8,7 +8,6 @@ use router::{chat::chat_routes, health::health_routes};
 use std::{env, error::Error};
 use tokio::net::TcpListener;
 use tracing::{Level, error};
-use tracing_subscriber;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -19,8 +18,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     dotenv().ok();
 
-    let port = env::var("PORT").unwrap_or_else(|e| {
-        error!("Failed to read PORT: {}, defaulting to 8080", e);
+    let addr = env::var("PORT").unwrap_or_else(|e| {
+        error!("Failed to read PORT: {}, defaulting to 0.0.0.8080", e);
         "0.0.0.0:8080".to_string()
     });
 
@@ -30,8 +29,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .layer(get_cors())
         .layer(compress_responses());
 
-    let listener = TcpListener::bind(&port).await.map_err(|e| {
-        error!("Failed to bind to {}: {}", &port, e);
+    let listener = TcpListener::bind(&addr).await.map_err(|e| {
+        error!("Failed to bind to {}: {}", addr, e);
         e
     })?;
 

@@ -13,7 +13,7 @@ use crate::models::messages::WsState;
 pub fn chat_routes() -> Router {
     let ws_state = WsState::new();
     Router::new()
-        .route("/join-room", get(get_room))
+        .route("/get-room", get(get_room))
         .route("/send-message", post(send_message))
         .with_state(Arc::new(ws_state))
 }

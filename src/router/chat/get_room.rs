@@ -44,7 +44,7 @@ pub async fn get_room(
         let existing_users: Vec<ChatUser> = room_users
             .values()
             .filter(|chat_user| chat_user.user_id != params.user_id)
-            .map(|chat_user| chat_user.clone())
+            .cloned()
             .collect();
 
         let room_users_payload = json!({

@@ -3,7 +3,7 @@ services:
     name: live-chat
     env: rust
     buildCommand: cargo build --release
-    startCommand: ./target/release/your-binary-name
+    startCommand: ./target/release/live-chat
     envVars:
-      - key: SERVER_PORT
+      - key: PORT
         value: 8080
