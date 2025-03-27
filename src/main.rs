@@ -7,12 +7,12 @@ use middleware::{compression::compress_responses, cors::get_cors};
 use router::{chat::chat_routes, health::health_routes};
 use std::{env, error::Error};
 use tokio::net::TcpListener;
-use tracing::{Level, error, info};
+use tracing::{Level, error};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     tracing_subscriber::fmt()
-        .with_max_level(Level::DEBUG)
+        .with_max_level(Level::ERROR)
         .with_writer(std::io::stderr)
         .init();
 
@@ -24,7 +24,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
     });
 
     let addr = format!("0.0.0.0:{}", port);
-    info!("Binding to address: {}", addr);
 
     let app = Router::new()
         .merge(health_routes())

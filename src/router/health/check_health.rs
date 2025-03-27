@@ -1,10 +1,8 @@
 use axum::{Json, http::StatusCode};
 use serde_json::{Value, json};
-use tracing::debug;
 
 // #[debug_handler]
 pub async fn check_health() -> (StatusCode, Json<Value>) {
-    debug!("check_health route called!");
     (
         StatusCode::OK,
         Json(json!({"data": "The server is up and running!"})),
