@@ -7,7 +7,7 @@ use middleware::{compression::compress_responses, cors::get_cors};
 use router::{chat::chat_routes, health::health_routes};
 use std::{env, error::Error};
 use tokio::net::TcpListener;
-use tracing::{Level, error};
+use tracing::{Level, error, info};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -18,10 +18,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     dotenv().ok();
 
-    let addr = env::var("PORT").unwrap_or_else(|e| {
+    let port = env::var("PORT").unwrap_or_else(|e| {
         error!("Failed to read PORT: {}, defaulting to 0.0.0.8080", e);
         "0.0.0.0:8080".to_string()
     });
+
+    let addr = format!("0.0.0.0:{}", port);
+    info!("Binding to address: {}", addr);
 
     let app = Router::new()
         .merge(health_routes())
